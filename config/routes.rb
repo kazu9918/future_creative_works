@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root 'companies#index'
+  resources :companies do
+    resources :survey_responses, only: [:new, :create]
+    get 'survey_analysis', on: :member
+  end
 end
