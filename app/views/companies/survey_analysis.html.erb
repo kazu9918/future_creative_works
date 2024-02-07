@@ -1,5 +1,10 @@
 <h1>Companies#new</h1>
 <p>Find me in app/views/companies/new.html.erb</p>
-<p>調査分析結果</p>
-<%= line_chart @data, width: "800px", height: "500px" %>
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">損失額</h5>
+    <p class="card-text">120,000,00円</p>
+  </div>
+</div>
+<%= line_chart [['2019-06-01', 100], ['2019-06-02', 200], ['2019-06-03', 150], ['2019-06-07', 250]], width: "1500px", height: "500px" %>
 <%= bar_chart @data %>
