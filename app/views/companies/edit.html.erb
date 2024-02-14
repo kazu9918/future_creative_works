@@ -1,3 +1,152 @@
-<h1>Companies#edit</h1>
-<p>Find me in app/views/companies/edit.html.erb</p>
-<p>企業編集画面</p>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企業新規作成画面</title>
+    <style>
+        /* テーブルの左側の見出しの背景色を水色に設定 */
+        table.table-bordered th {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="card card-body">
+        <h1>〇〇林業</h1>
+        <span id="companyId" style="float: right;">企業ID: 12345</span>
+    </div>
+    <div class="container">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td>企業名</td>
+                    <td><input id="companyNameInput" class="form-control" type="text" value="〇〇林業"></td>
+                </tr>
+                <tr>
+                    <td>業界</td>
+                    <td>
+                        <select id="industrySelect" class="form-control">
+                            <option>林業</option>
+                            <option>製造業</option>
+                            <option>運輸業</option>
+                            <option>建設業</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>従業員数</td>
+                    <td>
+                        <div class="input-group">
+                            <input id="employeeCountInput" class="form-control" type="text" style="max-width: 200px;" value="100">
+                            <span class="input-group-text">人</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>部署</td>
+                    <td id="departmentInputCell">
+                        <div class="input-group">
+                            <input class="form-control" type="text" value="営業部">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">＋</button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                        <input class="form-control" type="text" value="総務部">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">ー</button>
+                        </div>
+                        <div class="input-group">
+                        <input class="form-control" type="text" value="人事部">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">ー</button>
+                        </div>
+                    </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>業務内容</td>
+                    <td id="jobFunctionsInputCell">
+                        <div class="input-group">
+                            <input class="form-control" type="text" value="営業">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">＋</button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                        <input class="form-control" type="text" value="事務">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">ー</button>
+                        </div>
+                    </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-2">
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-sm btn-primary">更新</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-sm btn-secondary ml-2">キャンセル</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOMContentLoaded イベントのリスナー
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初期値を設定
+            setInitialValues();
+
+            var addDepartmentInputButton = document.getElementById('addDepartmentInput');
+            var addJobFunctionsInputButton = document.getElementById('addJobFunctionsInput');
+            var addEmploymentTypesInputButton = document.getElementById('addEmploymentTypesInput');
+
+            addDepartmentInputButton.addEventListener('click', function() {
+                addInput('departmentInputCell');
+            });
+
+            addJobFunctionsInputButton.addEventListener('click', function() {
+                addInput('jobFunctionsInputCell');
+            });
+
+            addEmploymentTypesInputButton.addEventListener('click', function() {
+                addInput('employmentTypesInputCell');
+            });
+
+            function addInput(cellId) {
+                var cell = document.getElementById(cellId);
+
+                var inputGroup = document.createElement('div');
+                inputGroup.classList.add('input-group');
+
+                var inputField = document.createElement('input');
+                inputField.classList.add('form-control');
+                inputField.setAttribute('type', 'text');
+
+                var appendDiv = document.createElement('div');
+                appendDiv.classList.add('input-group-append');
+
+                var removeButton = document.createElement('button');
+                removeButton.classList.add('btn', 'btn-outline-secondary');
+                removeButton.setAttribute('type', 'button');
+                removeButton.textContent = '−';
+
+                appendDiv.appendChild(removeButton);
+                inputGroup.appendChild(inputField);
+                inputGroup.appendChild(appendDiv);
+                cell.appendChild(inputGroup);
+
+                // ボタンを押すと、追加された入力フィールドを削除する
+                removeButton.addEventListener('click', function() {
+                    inputGroup.remove();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
