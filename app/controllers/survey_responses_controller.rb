@@ -7,7 +7,4 @@ class SurveyResponsesController < ApplicationController
 
   def thank_you
   end
-
-  def analysis
-  end
 end
