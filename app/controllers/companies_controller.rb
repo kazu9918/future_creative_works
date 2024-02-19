@@ -1,4 +1,7 @@
 class CompaniesController < ApplicationController
+  
+  skip_before_action :verify_authenticity_token
+
   def index
     @Company = Company.all
   end
@@ -30,9 +33,14 @@ class CompaniesController < ApplicationController
   end
 
   private
-  # ストロングパラメーターを使用して、許可されたパラメータのみを取り扱います。
+
   def company_params
-    params.require(:company).permit(:company_name, :number_of_employees, :industry_category, departments_attributes: [:department_name], job_functions_attributes: [:description])
+  # ストロングパラメーターを使用して、許可されたパラメータのみを取り扱います。
+    params.require(:company).permit(:name, :number_of_employees, :industry_id, departments_attributes: [:name], job_functions_attributes: [:description], survey_responses_attributes: [:employment_type_id])
   end
+
+  # def company_params
+  #   params.require(:company).permit(:company_name, :number_of_employees, :industry_id, departments_attributes: [:department_name], job_functions_attributes: [:description], survey_responses_attributes: [:employment_type_id])
+  # end
 
 end

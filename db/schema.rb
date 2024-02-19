@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_11_072828) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_15_125436) do
   create_table "companies", force: :cascade do |t|
     t.integer "company_id"
     t.string "company_name"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_072828) do
     t.integer "industry_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["company_id"], name: "index_companies_on_company_id", unique: true
     t.index ["industry_id"], name: "index_companies_on_industry_id"
   end
@@ -27,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_072828) do
     t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["company_id"], name: "index_departments_on_company_id"
   end
 
@@ -53,7 +55,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_11_072828) do
     t.index ["company_id"], name: "index_job_functions_on_company_id"
   end
 
+  create_table "survey_responses", force: :cascade do |t|
+    t.integer "company_id"
+    t.integer "employment_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_survey_responses_on_company_id"
+    t.index ["employment_type_id"], name: "index_survey_responses_on_employment_type_id"
+  end
+
   add_foreign_key "companies", "industries"
   add_foreign_key "departments", "companies"
   add_foreign_key "job_functions", "companies"
+  add_foreign_key "survey_responses", "companies"
+  add_foreign_key "survey_responses", "employment_types"
 end
