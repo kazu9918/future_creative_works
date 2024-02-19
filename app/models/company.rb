@@ -1,12 +1,14 @@
 class Company < ApplicationRecord
+    extend ActiveHash::Associations::ActiveRecordExtensions
+
     validates :name, presence: true
-    belongs_to :industry, class_name: 'Industry'
+    
     has_many :departments
     has_many :job_functions
     has_many :survey_responses
+    belongs_to_active_hash :industry
 
     delegate :industry_id, to: :industry, prefix: true
 
     accepts_nested_attributes_for :departments, :job_functions
-
 end
