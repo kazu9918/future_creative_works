@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gender: MyString
+  age_group: MyString
+  years_of_service: 1
+  response_date: 2024-02-19 23:12:52
+  days_with_symptoms: 1
+  task_volume_completion_level: 1
+  task_quality_level: 1
+  company: one
+  department: one
+  employment_type: one
+  job_function: one
+
+two:
+  gender: MyString
+  age_group: MyString
+  years_of_service: 1
+  response_date: 2024-02-19 23:12:52
+  days_with_symptoms: 1
+  task_volume_completion_level: 1
+  task_quality_level: 1
+  company: two
+  department: two
+  employment_type: two
+  job_function: two
