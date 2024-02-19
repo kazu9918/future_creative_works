@@ -36,11 +36,6 @@ class CompaniesController < ApplicationController
 
   def company_params
   # ストロングパラメーターを使用して、許可されたパラメータのみを取り扱います。
-    params.require(:company).permit(:name, :number_of_employees, :industry_id, departments_attributes: [:name], job_functions_attributes: [:description], survey_responses_attributes: [:employment_type_id])
+    params.require(:company).permit(:name, :number_of_employees, :industry_id, departments_attributes: [:name], job_functions_attributes: [:description])
   end
-
-  # def company_params
-  #   params.require(:company).permit(:company_name, :number_of_employees, :industry_id, departments_attributes: [:department_name], job_functions_attributes: [:description], survey_responses_attributes: [:employment_type_id])
-  # end
-
 end
