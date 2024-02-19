@@ -1,3 +1,28 @@
 .main-body {
     padding-top: 55px;
     }
+
+/* 青から水色へのグラデーション */
+.bg-gradient-blue {
+    background: linear-gradient(to right, #0000FF, #00FFFF);
+}
+
+/* 青から緑へのグラデーション */
+.bg-gradient-green {
+    background: linear-gradient(to right, #0000FF, #00FF00);
+}
+
+/* 緑から黄色へのグラデーション */
+.bg-gradient-yellow {
+    background: linear-gradient(to right, #00FF00, #FFFF00);
+}
+
+/* 黄色から赤へのグラデーション */
+.bg-gradient-red {
+    background: linear-gradient(to right, #FFFF00, #FF0000);
+}
+
+/* 赤から紫へのグラデーション */
+.bg-gradient-purple {
+    background: linear-gradient(to right, #FF0000, #800080);
+}

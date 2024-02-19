@@ -9,7 +9,7 @@
   <nav class="navbar fixed-top" style="background-color: #b3e2ff;">
   <div class="container-fluid">
     <a class="navbar-brand mx-5" href="#">
-      <h4>〇〇企業&ensp;様</h4>
+      <h4><%= @company_name %>&ensp;様</h4>
       </a>
     <div class="ms-auto"></div>
     <%= link_to "企業管理画面", "#", class: "btn btn-outline-primary text-nowrap mx-4" %>
@@ -21,79 +21,83 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <label for="gender-select" class="form-label">性別</label>
-            <select class="form-select" aria-label="gender-select" id="gender-select">
-              <option selected>選択してください</option>
-              <option value="1">男</option>
-              <option value="2">女</option>
-              <option value="3">その他</option>
-            </select>
-          </li>
-          <li class="nav-item">
-            <label for="age-group-select" class="form-label">年齢</label>
-            <select class="form-select" aria-label="age-group-select" id="age-group-select">
-              <option selected>選択してください</option>
-              <option value="1">10代</option>
-              <option value="2">20代</option>
-              <option value="3">30代</option>
-              <option value="4">40代</option>
-              <option value="5">50代</option>
-              <option value="6">60代</option>
-            </select>
-          </li>
-          <li class="nav-item">
-            <label for="period-select" class="form-label">期間</label>
-            <select class="form-select" aria-label="period-select" id="period-select">
-              <option selected>選択してください</option>
-              <option value="1">1ヵ月</option>
-              <option value="2">6か月</option>
-              <option value="3">12か月</option>
-            </select>
-          </li>
-          <li class="nav-item">
-            <label for="department-select" class="form-label">部署</label>
-            <select class="form-select" aria-label="department-select" id="department-select">
-              <option selected>選択してください</option>
-              <option value="1">営業</option>
-              <option value="2">総務</option>
-              <option value="3">経理</option>
-              <option value="4">製造</option>
-            </select>
-          </li>
-          <li class="nav-item">
-            <label for="job-function-select" class="form-label">業務内容</label>
-            <select class="form-select" aria-label="job-function-select" id="job-function-select">
-              <option selected>選択してください</option>
-              <option value="1">〇〇</option>
-              <option value="2">××</option>
-              <option value="3">◆◆</option>
-            </select>
-          </li><li class="nav-item">
-            <label for="employment-type-select" class="form-label">雇用形態</label>
-            <select class="form-select" aria-label="employment-type-select" id="employment-type-select">
-              <option selected>選択してください</option>
-              <option value="1">正社員</option>
-              <option value="2">契約社員</option>
-              <option value="3">無期雇用</option>
-              <option value="4">パート・アルバイト</option>
-            </select>
-          </li>
-          <li class="nav-item">
-            <label for="service-year-select" class="form-label">勤続年数</label>
-            <select class="form-select" aria-label="service-year-select" id="service-year-select">
-              <option selected>選択してください</option>
-              <option value="1">1年～3年</option>
-              <option value="2">4年～10年</option>
-              <option value="3">11年～20年</option>
-              <option value="4">21年以上</option>
-            </select>
-          </li>
-          <li class="nav-item">
-            <button type="submit" class="btn btn-primary m-3">条件変更</button>
-          </li> 
-        </ul>
+      <!--<%= form_with(method: "post") do |form| %>-->
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <!-- 性別 -->
+            <li class="nav-item">
+              <label for="gender-select" class="form-label">性別</label>
+              <select class="form-select" aria-label="gender-select" id="gender-select" name="gender">
+                <option value="1" <%= 'selected' if params[:gender] == '1' %>>男</option>
+                <option value="2" <%= 'selected' if params[:gender] == '2' %>>女</option>
+                <option value="3" <%= 'selected' if params[:gender] == '3' %>>その他</option>
+              </select>
+            </li>
+
+            <!-- 年齢 -->
+            <li class="nav-item">
+              <label for="age-group-select" class="form-label">年齢</label>
+              <select class="form-select" aria-label="age-group-select" id="age-group-select" name="age_group">
+                <option value="1" <%= 'selected' if params[:age_group] == '1' %>>10代</option>
+                <option value="2" <%= 'selected' if params[:age_group] == '2' %>>20代</option>
+                <option value="3" <%= 'selected' if params[:age_group] == '3' %>>30代</option>
+                <option value="4" <%= 'selected' if params[:age_group] == '4' %>>40代</option>
+                <option value="5" <%= 'selected' if params[:age_group] == '5' %>>50代</option>
+                <option value="6" <%= 'selected' if params[:age_group] == '6' %>>60代</option>
+              </select>
+            </li>
+
+            <!-- 部署 -->
+            <li class="nav-item">
+              <label for="department-select" class="form-label">部署</label>
+              <select class="form-select" aria-label="department-select" id="department-select" name="department">
+                <option selected>選択してください</option>
+                <% @options.each do |option| %>
+                  <option value="<%= option[1] %>" <%= 'selected' if params[:department] == option[1].to_s %>><%= option[0] %></option>
+                <% end %>
+              </select>
+            </li>
+
+            <!-- 業務内容 -->
+            <li class="nav-item">
+              <label for="job-function-select" class="form-label">業務内容</label>
+              <select class="form-select" aria-label="job-function-select" id="job-function-select" name="job_function">
+                <option selected>選択してください</option>
+                <% @options.each do |option| %>
+                  <option value="<%= option[1] %>" <%= 'selected' if params[:job_function] == option[1].to_s %>><%= option[0] %></option>
+                <% end %>
+              </select>
+            </li>
+
+            <!-- 雇用形態 -->
+            <li class="nav-item">
+              <label for="employment-type-select" class="form-label">雇用形態</label>
+              <select class="form-select" aria-label="employment-type-select" id="employment-type-select" name="employment_type">
+                <option selected>選択してください</option>
+                <% @options.each do |option| %>
+                  <option value="<%= option[1] %>" <%= 'selected' if params[:employment_type] == option[1].to_s %>><%= option[0] %></option>
+                <% end %>
+              </select>
+            </li>
+
+            <!-- 勤続年数 -->
+            <li class="nav-item">
+              <label for="service-year-select" class="form-label">勤続年数</label>
+              <select class="form-select" aria-label="service-year-select" id="service-year-select" name="service_year">
+                <option selected>選択してください</option>
+                <option value="1" <%= 'selected' if params[:service_year] == '1' %>>1年～3年</option>
+                <option value="2" <%= 'selected' if params[:service_year] == '2' %>>4年～10年</option>
+                <option value="3" <%= 'selected' if params[:service_year] == '3' %>>11年～20年</option>
+                <option value="4" <%= 'selected' if params[:service_year] == '4' %>>21年以上</option>
+              </select>
+            </li>
+
+            <!-- ボタン -->
+            <li class="nav-item">
+              <button type="submit" class="btn btn-primary m-3">条件変更</button>
+              <button type="submit" class="btn btn-danger m-3">条件削除</button>
+            </li>
+          </ul>
+        <!--<% end %>-->
       </div>
     </div>
   </div>
@@ -105,10 +109,18 @@
         <div class="col-10">
           <div class="card mb-2">
             <div class="card-body">
-              <h5 class="card-title">年間労働生産損失額</h5>
-              <p class="card-text">￥120,000,00</p>
-              <span class="badge text-bg-primary mx-4 mb-1">モデルケース</span>
-                <%= line_chart [['2019-06-01', 100], ['2019-06-02', 200], ['2019-06-03', 150], ['2019-06-07', 250]], width: "auto", height: "200px" %>
+              <h4 class="card-title"><div class="badge text-bg-warning">年間</div>
+              労働生産損失額</h4>
+              <h4 class="card-text mx-5 mb-3"><%= number_to_currency(@data, unit: "¥", delimiter: ',', precision: 0) %></h4>
+              <span class="badge text-bg-primary mx-4 my-1">モデルケース</span>
+                <%= line_chart [['現在', @data], ['半年後', @six_months_later], ['1年後', @one_year_later]], 
+                width: "auto", 
+                height: "200px",
+                min: 0,
+                max: 3000000,
+                prefix: "￥",
+                thousands: ","
+                %>
             </div>
           </div>
         </div>
@@ -121,11 +133,11 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 <h6>半年後</h6>
-                <p>￥120,000,00</p>
+                <p><%= number_to_currency(@six_months_later, unit: "¥", delimiter: ',', precision: 0) %></p>
               </li>
               <li class="list-group-item">
                 <h6>1年後</h6>
-                <p>￥120,000,00</p>
+                <p><%= number_to_currency(@one_year_later, unit: "¥", delimiter: ',', precision: 0) %></p>
               </li>
             </ul>
           </div>
@@ -134,8 +146,8 @@
         <div class="col">
           <div class="card my-2">
             <div class="card-body">
-              <p>症状ランキング（１位～５位）</p>
-              <%= bar_chart [['首、肩の痛み', 250],['背中の痛み', 200], ['腰痛', 150], ['関節の痛み', 100], ['頭痛', 100]],
+              <h5>症状ランキング（１位～５位）</h5>
+              <%= bar_chart @symptoms,
                 min: 0,
                 max: 300,
                 suffix: "人",
@@ -147,18 +159,19 @@
         <div class="col">
           <div class="card my-2">
             <div class="card-body">
-              <p>損失レベル</p>
+              <h5>損失レベル</h5>
               <div class="row">
                 <div class="col text-center">
                   <span class="badge text-white" style="background-color: #dc143c;">アブセンティーズム総額</span>
-                  <h6>￥120,000,00</h6>
+                  <h6><%= number_to_currency(@absent, unit: "¥", delimiter: ',', precision: 0) %></h6>
                 </div>
                 <div class="col text-center">
                   <span class="badge text-white" style="background-color: #9932cc;">プレセンティーズム総額</span>
-                  <h6>￥120,000,00</h6>
+                  <h6><%= number_to_currency(@data3, unit: "¥", delimiter: ',', precision: 0) %></h6>
                 </div>
+                <P class="mt-2">損失額</p>
               </div>
-              <%= bar_chart [['アブセンティーズム', 25],['上位25%', 20], ['上位25%～50%', 15], ['上位50%～75%', 10], ['上位75%～100%', 33]],
+              <%= bar_chart [['1万円以上', @absent_p],['8000円以上', 20], ['5000円以上', 15], ['2000円以上', 10], ['1000円以上', 33]],
                 min: 0,
                 max: 100,
                 suffix: "人",
@@ -171,10 +184,27 @@
         <div class="col">
           <div class="card my-2">
             <div class="card-body">
-              <p>企業診断</p>
-              <%= pie_chart [['損失総額', 100], ['利益', 250]],
-                colors: ["#b3afa1","#ffd700"]
-              %>
+              <h5>企業診断</h5>
+              <h6>年間労働損失額&ensp;<%= number_to_currency(@data, unit: "¥", delimiter: ',', precision: 0) %></h6>
+
+                <% loss_value = @data %> <!-- データベースから損失額を取得 -->
+                <% gradient_color_class = '' %>
+
+                <% if loss_value <= 100000 %>
+                  <% gradient_color_class = 'bg-gradient-blue' %> <!-- 青から水色へのグラデーション -->
+                <% elsif loss_value <= 200000 %>
+                  <% gradient_color_class = 'bg-gradient-green' %> <!-- 青から緑へのグラデーション -->
+                <% elsif loss_value <= 400000 %>
+                  <% gradient_color_class = 'bg-gradient-yellow' %> <!-- 緑から黄色へのグラデーション -->
+                <% elsif loss_value <= 500000 %>
+                  <% gradient_color_class = 'bg-gradient-red' %> <!-- 黄色から赤へのグラデーション -->
+                <% else %>
+                  <% gradient_color_class = 'bg-gradient-purple' %> <!-- 赤から紫へのグラデーション -->
+                <% end %>
+
+                <div class="progress" style="height: 30px;">
+                  <div class="progress-bar <%= gradient_color_class %>" role="progressbar" style="width: <%= (loss_value.to_f / 500000) * 100 %>%; background: <%= gradient_color_class %>;" aria-valuenow="<%= (loss_value.to_f / 500000) * 100 %>" aria-valuemin="0" aria-valuemax="100">
+                  </div>
             </div>
           </div>            
         </div>
