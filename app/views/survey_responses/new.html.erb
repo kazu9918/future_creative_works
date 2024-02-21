@@ -1,3 +1,445 @@
-<h1>SurveyResponses#new</h1>
-<p>Find me in app/views/survey_responses/new.html.erb</p>
-<p>アンケート記入画面</p>
+<head>
+    <title>アンケート記入画面</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<style>
+    .list-group-item {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+</style>
+    <div class="bg-primary">
+        <div class="text-white text-center">
+        <h2>健康実態調査</h1>
+        </div>
+        <div class="" style="padding: 15px; margin-top: 20px; background-color: #b3e0ff;">
+            <p>この度は皆さまの健康状態や職場環境の予防・改善ため、皆様の業務や想いについて調査させていただきます。この情報をもとに身体への負荷を減らし作業が行いやすい職場環境づくりを検討してまいります。アンケートの結果は全体の集計結果としてとりまとめ、個人が特定されるものではありません。皆様の率直なご意見をよろしくお願いいたします。（調査結果は学会、論文党で公表することがあります。）</p>
+        </div>
+    </div>
+    <div class="container col-md-8">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="dateInput">日付：</label>
+                    <input type="date" class="form-control" id="dateInput" name="date">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-check-label" for="inlineRadio1">性別：</label>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label for="inlineRadio1" class="form-check-label">男性</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input type="radio" class="form-check-input" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label for="inlineRadio2" class="form-check-label">女性</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="ageSelect">年代：</label>
+                    <select class="form-control" id="ageSelect" name="age">
+                        <option value="">選択する</option>
+                        <option value="10代以下">10代以下</option>
+                        <option value="20代">20代</option>
+                        <option value="30代">30代</option>
+                        <option value="40代">40代</option>
+                        <option value="50代">50代</option>
+                        <option value="60代以上">60代以上</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="departmentInput">部署：</label>
+                    <input type="text" class="form-control" id="departmentInput" name="department">
+                </div>
+            </div>
+            <div class="form-row col-md-6">
+                <div class="form-group">
+                    <label for="yearsInput">勤続年数：</label>
+                    <div class="input-group-append">
+                        <input type="text" class="form-control" id="yearsInput" name="years">
+                        <span class="input-group-text">年</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="jobInput">業務内容：</label>
+                    <input type="text" class="form-control" id="jobInput" name="job">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="employmentTypeInput">雇用形態：</label>
+                    <input type="text" class="form-control" id="employmentTypeInput" name="employmentType">
+                </div>
+            </div>
+            <div style="margin-bottom: 40px;"></div>
+            <div class="form-group">
+                <label for="symptoms"><b>①過去1ヶ月（直近30日間）の中における、あなたの健康上の問題や不調についてお尋ねします。<br>
+                　当てはまる選択肢をすべて選んでください。（複数選択可）</b></label>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom0" name="symptoms[]" value="頭痛">
+                            <label class="form-check-label" for="symptom0">0. 健康上の問題や不調はない</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom1" name="symptoms[]" value="肩こり">
+                            <label class="form-check-label" for="symptom1">1. アレルギーによる疾患（花粉症・アレルギー性結膜炎など）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom2" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom2">2. 皮膚の病気・かゆみ（湿疹やアトピー性皮膚炎など）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom3" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom3">3. 感染症による不調（風邪、インフルエンザ、胃腸炎）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom4" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom4">4. 胃腸に関する不調（繰り返す下痢、便秘、胃不快感）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom5" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom5">5. 胃手足の関節の痛みや不自由さ（関節炎など）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom6" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom6">6. 腰痛</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom7" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom7">7. くびの不調や肩のこりなど</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom8" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom8">8. 頭痛（偏頭痛や慢性的な頭痛など）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom9" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom9">9. 歯の不調（歯痛など）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom10" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom10">10. 精神に関する不調（うつ症状（気分の落ち込みなど）、不安感）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom11" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom11">11. 睡眠に関する不調（寝ようとしても寝れないなど）</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom12" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom12">12. 全身の倦怠感、疲労感</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom13" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom13">13. 眼の不調（視力低下、眼精疲労、ドライアイ、緑内障など</label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="symptom14" name="symptoms[]" value="腰痛">
+                            <label class="form-check-label" for="symptom14">14. その他不調など</label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div style="margin-bottom: 40px;"></div>
+            <div class="form-group">
+                <label><b>②前問で選択した1～14のうち、仕事に"一番影響をおよぼしている健康問題"を選んでください。</br>
+                　症状のいずれも仕事に影響を及ぼすほどでない方は、「0」を選択してください。</b></label>
+                <div style="margin-bottom: 40px;"></div>
+                <div class="form-group col-md-6">
+                    <select class="form-control" id="healthIssue" name="healthIssue">
+                        <option value="">選択する</option>
+                        <option value="0">0. 健康上の問題や不調はない</option>
+                        <option value="1">1. アレルギーによる疾患（花粉症・アレルギー性結膜炎など）</option>
+                        <option value="2">2. 皮膚の病気・かゆみ（湿疹やアトピー性皮膚炎など）</option>
+                        <option value="3">3.感染症による不調（風邪、インフルエンザ、胃腸炎）</option>
+                        <option value="4">4. 胃腸に関する不調（繰り返す下痢、便秘、胃不快感）</option>
+                        <option value="5">5. 手足の関節の痛みや不自由さ（関節炎など）</option>
+                        <option value="6">6. 腰痛</option>
+                        <option value="7">7. くびの不調や肩のこりなど</option>
+                        <option value="8">8. 頭痛（偏頭痛や慢性的な頭痛など）</option>
+                        <option value="9">9. 歯の不調（歯痛など）</option>
+                        <option value="10">10. 精神に関する不調（うつ症状（気分の落ち込みなど）、不安感）</option>
+                        <option value="11">11. 睡眠に関する不調（寝ようとしても寝れないなど）</option>
+                        <option value="12">12. 全身の倦怠感、疲労感</option>
+                        <option value="13">13. 眼の不調（視力低下、眼精疲労、ドライアイ、緑内障など</option>
+                        <option value="14">14. その他不調など</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-bottom: 40px;"></div>
+            <div class="form-group">
+                <label><b>③直近の30日の中で何日間その症状がありましたか。おおよそ当てはまる数字をご入力ください。</br>
+                　症状のいずれも仕事に影響を及ぼすほどでない方は、「0」を入力してください。</b></label>
+                <div style="margin-bottom: 40px;"></div>
+                <div class="input-group-append col-3">
+                    <input type="text" class="form-control" id="yearsInput" name="years">
+                    <span class="input-group-text">日</span>
+                </div>
+            </div>
+            <div style="margin-bottom: 40px;"></div>
+            <div class="form-group">
+            <label>④症状がないときに比べ、症状があるときは、どの程度の"仕事量"になりますか？</label>
+            <div style="margin-bottom: 10px;"></div>
+            <label><b>　就業開始から通常就業時間の間（残業になる前の時間帯）に、本来できたであろう仕事量のうち、
+                どの程度の仕事量をおこなえたか、「0～10」のうちもっともあてはまる選択肢を選んでください。</b></label>
+            <div style="margin-bottom: 20px;"></div>
+            <label>※仕事の質は問いません。</label>
+            <div style="margin-bottom: 40px;"></div>
+            <div class="form-group">
+                <div class="row align-items-center">
+                    <div class="col-auto">全く出来ない</div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount0">0</label>
+                            <input class="form-check-input" type="radio" name="workAmount" id="workAmount0" value="0">
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount1">1</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount1" value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount2">2</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount2" value="2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount3">3</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount3" value="3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount4">4</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount4" value="4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount5">5</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount5" value="5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount5">5</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount5" value="5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount6">6</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount6" value="6">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount7">7</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount7" value="7">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount8">8</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount8" value="8">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount9">9</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount9" value="9">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col px-2">
+                        <div class="text-center">
+                            <label class="form-check-label d-block" for="workAmount10">10</label>
+                            <div class="offset-1">
+                                <input class="form-check-input" type="radio" name="workAmount" id="workAmount10" value="10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">通常の仕事量</div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-bottom: 80px;"></div>
+        <div class="form-group">
+        <label><b>⑤症状がないときに比べ、症状があるときは、どの程度の"仕事の質"になりますか？</b></label>
+        <div style="margin-bottom: 10px;"></div>
+        <label>　ここでいう"仕事の質"とは、例えばミスの多さや創造性の発揮など、仕事の成果の品質に関する</br>こととお考え下さい。「0～10」のうちもっともあてはまる選択肢を選んでください。</label>
+        <div style="margin-bottom: 40px;"></div>
+        <div class="form-group">
+            <div class="row align-items-center">
+                <div class="col-auto">ゼロに近い質</div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality0">0</label>
+                        <input class="form-check-input" type="radio" name="workQuality" id="workQuality0" value="0">
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality1">1</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality1" value="1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality2">2</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality2" value="2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality3">3</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality3" value="3">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality4">4</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality4" value="4">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality5">5</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality5" value="5">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality5">5</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality5" value="5">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality6">6</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality6" value="6">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality7">7</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality7" value="7">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality8">8</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality8" value="8">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality9">9</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality9" value="9">
+                        </div>
+                    </div>
+                </div>
+                <div class="col px-2">
+                    <div class="text-center">
+                        <label class="form-check-label d-block" for="workQuality10">10</label>
+                        <div class="offset-1">
+                            <input class="form-check-input" type="radio" name="workQuality" id="workQuality10" value="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">通常の仕事の質</div>
+            </div>
+        </div>
+        <div style="margin-bottom: 80px;"></div>
+        <div class="form-row col-md-6">
+        <div class="form-group">
+            <label><b>⑥過去1ヶ月に、自分の病気で何日間休みましたか？</b></label>
+            <div style="margin-bottom: 40px;"></div>
+            <div class="input-group-append">
+                <input type="text" class="form-control" id="yearsInput" name="years">
+                <span class="input-group-text">年</span>
+            </div>
+        </div>
+    </div>
+    </div>
+    </form>
+    <div class="d-flex justify-content-center" style="margin-bottom: 40px;">
+        <button type="submit" class="btn btn-primary col-auto align-self-center text-center">送信</button>
+    </div>
+</body>
