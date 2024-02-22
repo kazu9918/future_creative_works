@@ -3,9 +3,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="form-inline mb-3" style="display: flex; justify-content: space-between;">
+    <div class="form-inline mb-3" style="display: flex; justify-content: space-between">
         <h1>企業一覧</h1>
-        <button type="submit" class="btn btn-primary">新規登録</button>
+        <%= link_to '新規登録', new_company_path, class: 'btn btn-primary' %>
     </div>
     <!-- 検索フォーム -->
     <div class="card card-body">
@@ -17,12 +17,11 @@
                 </div>
                 <div class="form-group mr-2">
                 <label class="pulldown-label">業種</label>
-                    <select class="form-control mr-2">
-                        <option>ー<option>
-                        <option>林業</option>
-                        <option>製造業</option>
-                        <option>運輸業</option>
-                        <option>建設業</option>
+                    <select class="form-control mr-2" name="industry_id">
+                        <option value="">ー</option>
+                        <% @industries.each do |industry| %>
+                            <option value="<%= industry.id %>"><%= industry.category %></option>
+                        <% end %>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">検索</button>
@@ -33,105 +32,31 @@
         <table class="table table-striped">
             <thead class="table-primary">
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th scope="col">企業名</th>
                     <th scope="col">業種</th>
-                    <th scope="col">操作</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>〇〇林業</td>
-                    <td>林業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇タクシー</td>
-                    <td>運輸業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇株式会社</td>
-                    <td>製造業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇建設</td>
-                    <td>建設業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>〇〇林業</td>
-                    <td>林業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇タクシー</td>
-                    <td>運輸業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇株式会社</td>
-                    <td>製造業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇建設</td>
-                    <td>建設業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>〇〇林業</td>
-                    <td>林業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇タクシー</td>
-                    <td>運輸業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇株式会社</td>
-                    <td>製造業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>〇〇建設</td>
-                    <td>建設業</td>
-                    <td><button type="button" class="btn btn-primary">詳細</button><button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">削除</button></td>
-                </tr>
-
+                <% @companies.each do |company| %>
+                    <tr>
+                        <th scope="row"><%= company.id %></th>
+                        <td><%= company.name %></td>
+                        <td><%= company.industry.category %></td>
+                        <td>
+                            <%= link_to 'アンケートデータ一覧へ', survey_analysis_company_path(company), class: 'btn btn-outline-primary btn-{themecolor} rounded-pill' %>
+                            <%= link_to 'アンケート画面へ', new_company_survey_response_path(company), class: 'btn btn-outline-secondary btn-{themecolor} rounded-pill' %>
+                        </td>
+                        <td>
+                            <%= link_to '編集', edit_company_path(company), class: 'btn btn-secondary' %>
+                            <%= link_to '削除', company_path(company), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger' %>
+                        </td>
+                    </tr>
+                <% end %>
             </tbody>
         </table>
-
-        <!-- モーダルの設定 -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <div class="modal-body">
-                        <p>削除しますか？</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                        <button type="button" class="btn btn-primary">キャンセル</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </body>
 

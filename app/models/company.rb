@@ -10,5 +10,6 @@ class Company < ApplicationRecord
 
     delegate :industry_id, to: :industry, prefix: true
 
-    accepts_nested_attributes_for :departments, :job_functions
+    accepts_nested_attributes_for :departments, allow_destroy: true
+    accepts_nested_attributes_for :job_functions, allow_destroy: true
 end

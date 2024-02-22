@@ -1,6 +1,65 @@
 <head>
     <title>企業新規作成画面</title>
 </head>
+<body>
+    <div class="card card-body">
+        <h1>企業新規作成</h1>
+    </div>
+    <div class="container">
+        <%= form_with(model: @company, local: true) do |form| %>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td>企業名</td>
+                    <td><%= form.text_field :name, class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <td>業界</td>
+                    <td>
+                    <%= form.collection_select :industry_id, @industries, :id, :category, {include_blank: '選択'}, {class: 'form-control'} %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>従業員数</td>
+                    <td>
+                    <div class="input-group" style="max-width: 200px;">
+                        <%= form.text_field :number_of_employees, class: 'form-control' %>
+                        <span class="input-group-text">人</span>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>部署</td>
+                    <td id="departmentInputCell">
+                        <div class="input-group">
+                            <%= form.fields_for :departments, @company.departments.build do |department_form| %>
+                                <%= department_form.text_field :name, class: 'form-control' %>
+                            <% end %>
+                            <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">＋ 部署を追加</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>業務内容</td>
+                    <td id="jobFunctionsInputCell">
+                    <div class="input-group">
+                        <%= form.fields_for :job_functions, @company.job_functions.build do |job_function_form| %>
+                            <%= job_function_form.text_field :description, class: 'form-control' %>
+                        <% end %>
+                        <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">＋ 業務内容を追加</button>
+                    </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="actions d-flex justify-content-center">
+                <%= form.submit '登録', class: 'btn btn-primary', style: 'margin-right: 8px;' %>
+                <%= link_to 'キャンセル', companies_path, class: 'btn btn-secondary' %>
+            </div>
+        <% end %>
+    </div>
+</body>
+
 <style>
     /* テーブルの左側の見出しの背景色を水色に設定 */
     table.table-bordered th {
@@ -8,129 +67,44 @@
     }
 </style>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var addDepartmentInputButton = document.getElementById('addDepartmentInput');
-    var addJobFunctionsInputButton = document.getElementById('addJobFunctionsInput');
-    var addEmploymentTypesInputButton = document.getElementById('addEmploymentTypesInput');
+document.addEventListener("DOMContentLoaded", function() {
+  let departmentIndex = 1; // 部署用のインデックス
+  let jobFunctionIndex = 1; // 業務内容用のインデックス
 
-    addDepartmentInputButton.addEventListener('click', function() {
-        addInput('departmentInputCell');
+  document.getElementById("addDepartmentInput").addEventListener("click", function() {
+    addField("departmentInputCell", "departments", departmentIndex++, "name");
+  });
+
+  document.getElementById("addJobFunctionsInput").addEventListener("click", function() {
+    addField("jobFunctionsInputCell", "job_functions", jobFunctionIndex++, "description");
+  });
+
+  function addField(wrapperId, association, index, fieldName) {
+    var wrapper = document.getElementById(wrapperId);
+    var newFieldWrapper = document.createElement("div");
+    newFieldWrapper.classList.add("input-group", "mb-2");
+
+    var newField = document.createElement("input");
+    newField.setAttribute("type", "text");
+    // フィールド名を正しく設定する
+    newField.setAttribute("name", `company[${association}_attributes][${index}][${fieldName}]`);
+    newField.classList.add("form-control");
+
+    var removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.innerText = "削除";
+    removeButton.classList.add("btn", "btn-danger", "btn-sm", "input-group-append");
+
+    removeButton.addEventListener("click", function() {
+      newFieldWrapper.remove();
+      // インデックスをデクリメントする処理は省略。実際には削除された要素に応じてインデックス管理を工夫する必要がある
     });
 
-    addJobFunctionsInputButton.addEventListener('click', function() {
-        addInput('jobFunctionsInputCell');
-    });
-
-    addEmploymentTypesInputButton.addEventListener('click', function() {
-        addInput('employmentTypesInputCell');
-    });
-
-    function addInput(cellId) {
-        var cell = document.getElementById(cellId);
-
-        var inputGroup = document.createElement('div');
-        inputGroup.classList.add('input-group');
-
-        var inputField = document.createElement('input');
-        inputField.classList.add('form-control');
-        inputField.setAttribute('type', 'text');
-
-        var appendDiv = document.createElement('div');
-        appendDiv.classList.add('input-group-append');
-
-        var removeButton = document.createElement('button');
-        removeButton.classList.add('btn', 'btn-outline-secondary');
-        removeButton.setAttribute('type', 'button');
-        removeButton.textContent = '−';
-
-        appendDiv.appendChild(removeButton);
-        inputGroup.appendChild(inputField);
-        inputGroup.appendChild(appendDiv);
-        cell.appendChild(inputGroup);
-
-        // ボタンを押すと、追加された入力フィールドを削除する
-        removeButton.addEventListener('click', function() {
-            inputGroup.remove();
-        });
-    }
+    newFieldWrapper.appendChild(newField);
+    newFieldWrapper.appendChild(removeButton);
+    wrapper.appendChild(newFieldWrapper);
+  }
 });
 </script>
-<body>
-    <div class="card card-body">
-        <h1>企業新規作成</h1>
-    </div>
-    <div class="container">
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>企業名</td>
-                    <td><input class="form-control" type="text"></td>
-                </tr>
-                <tr>
-                    <td>業界</td>
-                    <td>
-                        <select class="form-control">
-                            <option>ー</option>
-                            <option>林業</option>
-                            <option>製造業</option>
-                            <option>運輸業</option>
-                            <option>建設業</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>従業員数</td>
-                    <td>
-                        <div class="input-group">
-                            <input class="form-control" type="text" style="max-width: 200px;">
-                            <span class="input-group-text">人</span>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-    <td>部署</td>
-    <td id="departmentInputCell"> <!-- ID を指定 -->
-        <div class="input-group">
-            <input class="form-control" type="text">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">＋</button>
-            </div>
-        </div>
-    </td>
-</tr>
-<tr>
-    <td>業務内容</td>
-    <td id="jobFunctionsInputCell"> <!-- ID を指定 -->
-        <div class="input-group">
-            <input class="form-control" type="text">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">＋</button>
-            </div>
-        </div>
-    </td>
-</tr>
-<tr>
-    <td>雇用形態</td>
-    <td id="employmentTypesInputCell"> <!-- ID を指定 -->
-        <div class="input-group">
-            <input class="form-control" type="text">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="addEmploymentTypesInput">＋</button>
-            </div>
-        </div>
-    </td>
-</tr>
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-center mt-2">
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-sm btn-primary">登録</button>
-                </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-sm btn-secondary ml-2">キャンセル</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
+
+
