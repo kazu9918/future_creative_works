@@ -1,100 +1,73 @@
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>企業新規作成画面</title>
-    <style>
-        /* テーブルの左側の見出しの背景色を水色に設定 */
-        table.table-bordered th {
-            background-color: lightblue;
-        }
-    </style>
-</head>
-<body>
-    <div class="card card-body">
-        <h1>〇〇林業</h1>
-        <span id="companyId" style="float: right;">企業ID: 12345</span>
-    </div>
-    <div class="container">
-        <table class="table table-bordered">
-            <tbody>
-                <tr>
-                    <td>企業名</td>
-                    <td><input id="companyNameInput" class="form-control" type="text" value="〇〇林業"></td>
-                </tr>
-                <tr>
-                    <td>業界</td>
-                    <td>
-                        <select id="industrySelect" class="form-control">
-                            <option>林業</option>
-                            <option>製造業</option>
-                            <option>運輸業</option>
-                            <option>建設業</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>従業員数</td>
-                    <td>
-                        <div class="input-group">
-                            <input id="employeeCountInput" class="form-control" type="text" style="max-width: 200px;" value="100">
+    <head>
+        <title>企業編集画面</title>
+        <!-- スタイルとJavaScriptは省略 -->
+    </head>
+    <body>
+        <div class="card card-body">
+            <h1>企業編集</h1>
+        </div>
+        <div class="container">
+            <%= form_with(model: @company, local: true) do |form| %>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td>企業名</td>
+                        <td><%= form.text_field :name, class: 'form-control' %></td>
+                    </tr>
+                    <tr>
+                        <td>業界</td>
+                        <td>
+                        <%= form.collection_select :industry_id, @industries, :id, :category, {include_blank: '選択'}, {class: 'form-control'} %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>従業員数</td>
+                        <td>
+                        <div class="input-group" style="max-width: 200px;">
+                            <%= form.text_field :number_of_employees, class: 'form-control' %>
                             <span class="input-group-text">人</span>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>部署</td>
-                    <td id="departmentInputCell">
-                        <div class="input-group">
-                            <input class="form-control" type="text" value="営業部">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">＋</button>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                        <input class="form-control" type="text" value="総務部">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">ー</button>
-                        </div>
-                        <div class="input-group">
-                        <input class="form-control" type="text" value="人事部">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">ー</button>
-                        </div>
-                    </div>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>業務内容</td>
-                    <td id="jobFunctionsInputCell">
-                        <div class="input-group">
-                            <input class="form-control" type="text" value="営業">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">＋</button>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                        <input class="form-control" type="text" value="事務">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">ー</button>
-                        </div>
-                    </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-center mt-2">
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-sm btn-primary">更新</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>部署</td>
+                        <td id="departmentInputCell">
+                            <% @departments.each_with_index do |department, index| %>
+                                <div class="input-group mb-2">
+                                    <%= form.fields_for :departments, department, index: index do |department_form| %>
+                                        <%= department_form.text_field :name, class: 'form-control' %>
+                                    <% end %>
+                                    <button class="btn btn-danger btn-sm input-group-append" type="button" onclick="removeField(this)">削除</button>
+                                </div>
+                            <% end %>
+                            <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">＋ 部署を追加</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>業務内容</td>
+                        <td id="jobFunctionsInputCell">
+                            <% @jobFunctions.each_with_index do |job_function, index| %>
+                                <div class="input-group mb-2">
+                                    <%= form.fields_for :job_functions, job_function, index: index do |job_function_form| %>
+                                        <%= job_function_form.text_field :description, class: 'form-control' %>
+                                    <% end %>
+                                    <button class="btn btn-danger btn-sm input-group-append" type="button" onclick="removeField(this)">削除</button>
+                                </div>
+                            <% end %>
+                            <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">＋ 業務内容を追加</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="actions d-flex justify-content-center">
+                    <%= form.submit '更新', class: 'btn btn-primary', style: 'margin-right: 8px;' %>
+                    <%= link_to 'キャンセル', companies_path, class: 'btn btn-secondary' %>
                 </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-sm btn-secondary ml-2">キャンセル</button>
-                </div>
-            </div>
+            <% end %>
         </div>
-    </div>
+    </body>
+</html>
 
     <script>
         // DOMContentLoaded イベントのリスナー

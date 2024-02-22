@@ -3,19 +3,20 @@ class CompaniesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @Company = Company.all
+    @companies = Company.all
+    @industries = Industry.all
   end
 
   def new
     @company = Company.new
+    @industries = Industry.all
   end
 
   def create
-
     @company = Company.new(company_params)
     
     if @company.save
-      redirect_to @company, notice: 'Company was successfully created.'
+      redirect_to companies_path, notice: 'Company was successfully created.'
     else
       render :new
     end
@@ -23,6 +24,10 @@ class CompaniesController < ApplicationController
   end
 
   def edit
+    @company = Company.find(params[:id])
+    @industries = Industry.all
+    @departments = @company.departments.all
+    @jobFunctions = @company.job_functions.all
   end
 
   def update
@@ -35,7 +40,12 @@ class CompaniesController < ApplicationController
   private
 
   def company_params
-  # ストロングパラメーターを使用して、許可されたパラメータのみを取り扱います。
-    params.require(:company).permit(:name, :number_of_employees, :industry_id, departments_attributes: [:name], job_functions_attributes: [:description])
+    params.require(:company).permit(
+      :name, 
+      :number_of_employees, 
+      :industry_id, 
+      departments_attributes: [:id, :name, :_destroy],
+      job_functions_attributes: [:id, :description, :_destroy]
+    )
   end
 end
