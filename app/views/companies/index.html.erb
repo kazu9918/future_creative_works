@@ -1,3 +1,68 @@
-<h1>Companies#index</h1>
-<p>Find me in app/views/companies/index.html.erb</p>
-<p>企業一覧画面</p>
+<head>
+    <title>企業一覧画面</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="form-inline mb-3" style="display: flex; justify-content: space-between">
+        <h1>企業一覧</h1>
+        <%= link_to '新規登録', new_company_path, class: 'btn btn-primary' %>
+    </div>
+    <!-- 検索フォーム -->
+    <div class="card card-body">
+        <div class="form-inline mb-3">
+            <form class="form-inline mb-3">
+                <div class="form-group mr-2">
+                    <label for="exampleInputPassword1" class="form-label">企業名</label>
+                    <input type="password" class="form-control mr-2" id="exampleInputPassword1">
+                </div>
+                <div class="form-group mr-2">
+                <label class="pulldown-label">業種</label>
+                    <select class="form-control mr-2" name="industry_id">
+                        <option value="">ー</option>
+                        <% @industries.each do |industry| %>
+                            <option value="<%= industry.id %>"><%= industry.category %></option>
+                        <% end %>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">検索</button>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <table class="table table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th scope="col">企業名</th>
+                    <th scope="col">業種</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @companies.each do |company| %>
+                    <tr>
+                        <th scope="row"><%= company.id %></th>
+                        <td><%= company.name %></td>
+                        <td><%= company.industry.category %></td>
+                        <td>
+                            <%= link_to 'アンケートデータ一覧へ', survey_analysis_company_path(company), class: 'btn btn-outline-primary btn-{themecolor} rounded-pill' %>
+                            <%= link_to 'アンケート画面へ', new_company_survey_response_path(company), class: 'btn btn-outline-secondary btn-{themecolor} rounded-pill' %>
+                        </td>
+                        <td>
+                            <%= link_to '編集', edit_company_path(company), class: 'btn btn-secondary' %>
+                            <%= button_to '削除', company_path(company), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger', form: {class: "d-inline"} %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+
+
+
+
+

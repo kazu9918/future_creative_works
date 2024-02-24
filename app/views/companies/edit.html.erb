@@ -1,3 +1,142 @@
-<h1>Companies#edit</h1>
-<p>Find me in app/views/companies/edit.html.erb</p>
-<p>企業編集画面</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>企業情報編集画面</title>
+</head>
+<body>
+    <div class="card card-body">
+        <h1>企業情報編集</h1>
+    </div>
+    <div class="container">
+        <%= form_with(model: @company, local: true) do |form| %>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td>企業名</td>
+                    <td><%= form.text_field :name, class: 'form-control' %></td>
+                </tr>
+                <tr>
+                    <td>業界</td>
+                    <td>
+                    <%= form.collection_select :industry_id, @industries, :id, :category, {include_blank: '選択'}, {class: 'form-control'} %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>従業員数</td>
+                    <td>
+                    <div class="input-group" style="max-width: 200px;">
+                        <%= form.text_field :number_of_employees, class: 'form-control' %>
+                        <span class="input-group-text">人</span>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>部署</td>
+                    <td id="departmentInputCell">
+                        <% @company.departments.each_with_index do |department, index| %>
+                            <div class="input-group mb-2">
+                                <%= form.fields_for :departments, department do |department_form| %>
+                                    <%= department_form.text_field :name, class: 'form-control' %>
+                                    <%= department_form.hidden_field :_destroy, value: department_form.object._destroy, id: "departments_#{index}__destroy" %>
+                                <% end %>
+                                <button class="btn btn-danger btn-sm input-group-append" type="button" onclick="remove_fields(this)">削除</button>
+                            </div>
+                        <% end %>
+                        <button class="btn btn-outline-secondary" type="button" id="addDepartmentInput">＋ 部署を追加</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>業務内容</td>
+                    <td id="jobFunctionsInputCell">
+                        <% @company.job_functions.each_with_index do |job_function, index| %>
+                            <div class="input-group mb-2">
+                                <%= form.fields_for :job_functions, job_function do |job_function_form| %>
+                                    <%= job_function_form.text_field :description, class: 'form-control' %>
+                                    <%= job_function_form.hidden_field :_destroy, value: job_function_form.object._destroy, id: "job_function_form_#{index}__destroy" %>
+                                <% end %>
+                                <button class="btn btn-danger btn-sm input-group-append" type="button">削除</button>
+                            </div>
+                        <% end %>
+                        <button class="btn btn-outline-secondary" type="button" id="addJobFunctionsInput">＋ 業務内容を追加</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="actions d-flex justify-content-center">
+                <%= form.submit '更新', class: 'btn btn-primary', style: 'margin-right: 8px;' %>
+                <%= link_to 'キャンセル', companies_path, class: 'btn btn-secondary' %>
+            </div>
+        <% end %>
+    </div>
+</body>
+</html>
+
+<style>
+    /* テーブルの左側の見出しの背景色を水色に設定 */
+    table.table-bordered th {
+        background-color: lightblue;
+    }
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    initializeExistingRemovalButtons();
+
+    // 既存の削除ボタンに対する処理を初期化
+    function initializeExistingRemovalButtons() {
+        document.querySelectorAll('.input-group .btn-danger').forEach(button => {
+            button.addEventListener('click', function(event) {
+                const wrapper = event.target.closest('.input-group');
+                const hiddenDestroyInput = wrapper.querySelector("input[type=hidden][name*='_destroy']");
+                if (hiddenDestroyInput) {
+                    hiddenDestroyInput.value = '1';
+                }
+                wrapper.style.display = 'none';
+            });
+        });
+    }
+
+    let departmentIndex = <%= @company.departments.count %>;
+    let jobFunctionIndex = <%= @company.job_functions.count %>;
+
+    document.getElementById("addDepartmentInput").addEventListener("click", function() {
+        addField("departmentInputCell", "departments", departmentIndex++, "name");
+    });
+
+    document.getElementById("addJobFunctionsInput").addEventListener("click", function() {
+        addField("jobFunctionsInputCell", "job_functions", jobFunctionIndex++, "description");
+    });
+
+    function addField(wrapperId, association, index, fieldName) {
+        let wrapper = document.getElementById(wrapperId);
+        let newFieldWrapper = document.createElement("div");
+        newFieldWrapper.classList.add("input-group", "mb-2");
+
+        let newField = document.createElement("input");
+        newField.setAttribute("type", "text");
+        newField.setAttribute("name", `company[${association}_attributes][${index}][${fieldName}]`);
+        newField.classList.add("form-control");
+
+        let hiddenDestroy = document.createElement("input");
+        hiddenDestroy.setAttribute("type", "hidden");
+        hiddenDestroy.setAttribute("name", `company[${association}_attributes][${index}][_destroy]`);
+        hiddenDestroy.value = "false";
+
+        let removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.innerText = "削除";
+        removeButton.classList.add("btn", "btn-danger", "btn-sm", "input-group-append");
+
+        removeButton.addEventListener("click", function() {
+            hiddenDestroy.value = "true";
+            newFieldWrapper.style.display = "none";
+        });
+
+        newFieldWrapper.appendChild(newField);
+        newFieldWrapper.appendChild(hiddenDestroy);
+        newFieldWrapper.appendChild(removeButton);
+        wrapper.appendChild(newFieldWrapper);
+    }
+});
+
+</script>

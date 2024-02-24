@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  is_most_impactful: false
+  survey_response_id: 1
+  health_condition_id: 1
+
+two:
+  is_most_impactful: false
+  survey_response_id: 1
+  health_condition_id: 1

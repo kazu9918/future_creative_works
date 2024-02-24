@@ -1,3 +1,189 @@
-<h1>SurveyResponses#new</h1>
-<p>Find me in app/views/survey_responses/new.html.erb</p>
-<p>アンケート記入画面</p>
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>アンケート記入画面</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .list-group-item {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-primary">
+      <div class="text-white text-center">
+        <h2>健康実態調査</h2>
+      </div>
+    </div>
+    <div class="container col-md-8">
+      <div style="padding: 15px; background-color: #b3e0ff;">
+        <p>この度は皆さまの健康状態や職場環境の予防・改善ため、皆様の業務や想いについて調査させていただきます。この情報をもとに身体への負荷を減らし作業が行いやすい職場環境づくりを検討してまいります。アンケートの結果は全体の集計結果としてとりまとめ、個人が特定されるものではありません。皆様の率直なご意見をよろしくお願いいたします。（調査結果は学会、論文党で公表することがあります。）</p>
+      </div>
+      <%= form_with(model: [@company, @survey_response], local: true) do |f| %>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="survey_number">何回目のアンケート：</label>
+            <div class="input-group-append">
+              <%= f.number_field :survey_number, class: 'form-control', id: 'survey_number' %>
+              <span class="input-group-text">回目</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-check-label" for="inlineRadio1">性別：</label>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :gender, '男性', class: 'form-check-input', id: 'gender_male' %>
+            <%= f.label :gender, '男性', value: '男性', class: 'form-check-label' %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :gender, '女性', class: 'form-check-input', id: 'gender_female' %>
+            <%= f.label :gender, '女性', value: '女性', class: 'form-check-label' %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :age_group, '年代：' %>
+            <%= f.select :age_group, options_for_select(I18n.t('enums.survey_response.age_group').map { |key, value| [value, key] }, @survey_response.age_group), { include_blank: '選択する' }, { class: 'form-control', id: 'ageSelect' } %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :department_id, "部署：" %>
+            <%= f.collection_select :department_id, @departments, :id, :name, { prompt: "選択する" }, { class: "form-control" } %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :years_of_service, '勤続年数：' %>
+            <div class="input-group-append">
+              <%= f.number_field :years_of_service, class: 'form-control', id: 'years_of_service' %>
+              <span class="input-group-text">年</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :job_function_id, "業務内容：" %>
+            <%= f.collection_select :job_function_id, @jobFunctions, :id, :description, { prompt: "選択する" }, { class: "form-control" } %>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <%= f.label :employment_type_id, "雇用形態：" %>
+            <%= f.collection_select :employment_type_id, @employment_type, :id, :category, { prompt: "選択する" }, { class: "form-control" } %>
+          </div>
+        </div>
+        <div style="margin-bottom: 40px;"></div>
+        <%= f.fields_for :health_condition_responses, @survey_response.health_condition_responses.build do |hcrf| %>
+          <label><b>①過去1ヶ月（直近30日間）の中における、あなたの健康上の問題や不調についてお尋ねします。</b></label>
+          <% @health_conditions.each_with_index do |condition, index| %>
+            <div class="form-check">
+              <%= hcrf.check_box "health_condition_id", { class: "form-check-input", id: "condition_#{condition.id}" }, condition.id, nil %>
+              <%= hcrf.label "condition_#{condition.id}", condition.category, class: "form-check-label" %>
+            </div>
+          <% end %>
+        <% end %>
+        <div style="margin-bottom: 40px;"></div>
+        <div class="form-group">
+          <label><b>②前問で選択した1～14のうち、仕事に"一番影響をおよぼしている健康問題"を選んでください。<br>
+              症状のいずれも仕事に影響を及ぼすほどでない方は、「0」を選択してください。</b></label>
+          <select class="form-control" id="most_impactful_health_condition" name="survey_response[most_impactful_health_condition]">
+            <option value="">選択してください</option>
+            <% @health_conditions.each do |condition| %>
+              <option value="<%= condition.id %>"><%= condition.category %></option>
+            <% end %>
+          </select>
+        </div>
+        <div style="margin-bottom: 40px;"></div>
+        <div class="form-group">
+          <label><b>③直近の30日の中で何日間その症状がありましたか。おおよそ当てはまる数字をご入力ください。<br>
+              　症状のいずれも仕事に影響を及ぼすほどでない方は、「0」を入力してください。</b></label>
+        </div>
+        <div style="margin-bottom: 40px;"></div>
+        <div class="input-group-append col-3">
+          <%= f.number_field :days_with_symptoms, class: 'form-control', id: 'days_with_symptoms' %>
+          <span class="input-group-text">日</span>
+        </div>
+        <div style="margin-bottom: 40px;"></div>
+        <div class="form-group">
+          <label><b>④症状がないときに比べ、症状があるときは、どの程度の"仕事量"になりますか？</b></label>
+          <div style="margin-bottom: 10px;"></div>
+          <label>　就業開始から通常就業時間の間（残業になる前の時間帯）に、本来できたであろう仕事量のうち、どの程度の仕事量をおこなえたか、「0～10」のうちもっともあてはまる選択肢を選んでください。</label>
+          <div style="margin-bottom: 20px;"></div>
+          <label>※仕事の質は問いません。</label>
+          <div style="margin-bottom: 40px;"></div>
+          <div class="form-group">
+            <div class="row align-items-center">
+              <div class="col-auto">全く出来ない</div>
+              <% (0..10).each do |number| %>
+                <div class="col px-2 text-center">
+                  <%= f.label :task_volume_completion_level, number, class: 'form-check-label d-block', for: "workAmount#{number}" %>
+                  <%= f.radio_button :task_volume_completion_level, number, class: 'form-check-input', id: "workAmount#{number}" %>
+                </div>
+              <% end %>
+              <div class="col-auto">通常の仕事量</div>
+            </div>
+          </div>
+          <div style="margin-bottom: 80px;"></div>
+          <div class="form-group">
+            <label><b>⑤症状がないときに比べ、症状があるときは、どの程度の"仕事の質"になりますか？</b></label>
+            <div style="margin-bottom: 10px;"></div>
+            <label>　ここでいう"仕事の質"とは、例えばミスの多さや創造性の発揮など、仕事の成果の品質に関することとお考え下さい。「0～10」のうちもっともあてはまる選択肢を選んでください。</label>
+          </div>
+          <div style="margin-bottom: 40px;"></div>
+          <div class="form-group">
+            <div class="row align-items-center">
+              <div class="col-auto">ゼロに近い質</div>
+              <% (0..10).each do |number| %>
+                <div class="col px-2 text-center">
+                  <%= f.label :task_quality_level, number, class: 'form-check-label d-block', for: "workAmount#{number}" %>
+                  <%= f.radio_button :task_quality_level, number, class: 'form-check-input', id: "workAmount#{number}" %>
+                </div>
+              <% end %>
+              <div class="col-auto">通常の仕事の質</div>
+            </div>
+          </div>
+          <div style="margin-bottom: 80px;"></div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label><b>⑥過去1ヶ月に、自分の病気で何日間休みましたか？</b></label>
+              <div style="margin-bottom: 40px;"></div>
+              <div class="input-group-append">
+                <%= f.number_field :absent_days, class: 'form-control', id: 'absent_days' %>
+                <span class="input-group-text">日</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center" style="margin-bottom: 40px;">
+          <button type="submit" class="btn btn-primary col-auto align-self-center text-center">送信</button>
+        </div>
+      <% end %>
+    </div>
+  </body>
+</html>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const selectElement = document.getElementById('most_impactful_health_condition');
+
+    selectElement.addEventListener('change', function() {
+      // 最も影響を及ぼしている健康問題の値を取得
+      const selectedValue = this.value;
+
+      // すべての健康状態に対してループ
+      document.getElementsByName('survey_response[health_condition_responses_attributes][][health_condition_id]').forEach((element) => {
+        const conditionId = element.value;
+        const isMostImpactfulElement = document.querySelector(`input[name='survey_response[health_condition_responses_attributes][${conditionId}][is_most_impactful]']`);
+
+        // 選択された健康状態に対してのみis_most_impactfulをtrueに設定
+        if (conditionId === selectedValue) {
+          isMostImpactfulElement.value = 'true';
+        } else {
+          isMostImpactfulElement.value = 'false';
+        }
+      });
+    });
+  });
+</script>
