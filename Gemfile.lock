@@ -103,6 +103,7 @@ GEM
     ffi (1.16.3-x64-mingw32)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    htmlbeautifier (1.4.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
@@ -261,6 +262,7 @@ DEPENDENCIES
   capybara
   chartkick
   debug
+  htmlbeautifier
   importmap-rails
   jbuilder
   jquery-rails

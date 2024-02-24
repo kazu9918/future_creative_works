@@ -31,10 +31,30 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    @company = Company.find(params[:id])
+    if @company.update(company_params)
+      redirect_to companies_path, notice: '企業情報が正常に更新されました。'
+    else
+      @industries = Industry.all # エラー時に再度業界リストをロード
+      render :edit
+    end
+  end
+
+  def destroy
+    @company = Company.find(params[:id])
+    if @company.destroy
+      redirect_to companies_path, notice: '企業が正常に削除されました。'
+    else
+      redirect_to companies_path, alert: '企業の削除に失敗しました。'
+    end
   end
 
   def survey_analysis
-    @data = [['2019-06-01', 100], ['2019-06-02', 200], ['2019-06-03', 150]]
+    @company = Company.find(params[:id])
+    @departments = @company.departments.all
+    @jobFunctions = @company.job_functions.all
+    @employment_types = EmploymentType.all
+    @symptoms = [['腰痛', 5],['頭痛（偏頭痛や慢...', 4], ['睡眠に関する不調...', 2], ['アレルギーによる...', 1], ['その他不調など', 1]]
   end
 
   private

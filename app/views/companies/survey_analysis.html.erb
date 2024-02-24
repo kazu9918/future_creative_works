@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title></title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-</head>
-<body>
-  <nav class="navbar fixed-top" style="background-color: #b3e2ff;">
-  <div class="container-fluid">
-    <a class="navbar-brand mx-5" href="#">
-      <h4><%= @company_name %>&ensp;様</h4>
-      </a>
-    <div class="ms-auto"></div>
-    <%= link_to "企業管理画面", "#", class: "btn btn-outline-primary text-nowrap mx-4" %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="offcanvas offcanvas-end" style="background-color: #b0c4de;" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-      <div class="offcanvas-header">
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-      <!--<%= form_with(method: "post") do |form| %>-->
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <!-- 性別 -->
-            <li class="nav-item">
-              <label for="gender-select" class="form-label">性別</label>
-              <select class="form-select" aria-label="gender-select" id="gender-select" name="gender">
-                <option value="1" <%= 'selected' if params[:gender] == '1' %>>男</option>
+  <head>
+    <title></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+  </head>
+  <body>
+    <nav class="navbar fixed-top" style="background-color: #b3e2ff;">
+      <div class="container-fluid">
+        <a class="navbar-brand mx-5" href="#">
+          <h4><%= @company.name %>&ensp;様</h4>
+        </a>
+        <div class="ms-auto"></div>
+        <%= link_to "企業管理画面", companies_path, class: "btn btn-outline-primary text-nowrap mx-4" %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" style="background-color: #b0c4de;" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+          <div class="offcanvas-header">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <!--<%= form_with(method: "post") do |form| %>-->
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <!-- 性別 -->
+              <li class="nav-item">
+                <label for="gender-select" class="form-label">性別</label>
+                <select class="form-select" aria-label="gender-select" id="gender-select" name="gender">
+                  <option value="1" <%= 'selected' if params[:gender] == '1' %>>男</option>
                 <option value="2" <%= 'selected' if params[:gender] == '2' %>>女</option>
                 <option value="3" <%= 'selected' if params[:gender] == '3' %>>その他</option>
               </select>
@@ -51,40 +51,37 @@
               <label for="department-select" class="form-label">部署</label>
               <select class="form-select" aria-label="department-select" id="department-select" name="department">
                 <option selected>選択してください</option>
-                <% @options.each do |option| %>
-                  <option value="<%= option[1] %>" <%= 'selected' if params[:department] == option[1].to_s %>><%= option[0] %></option>
-                <% end %>
-              </select>
-            </li>
-
-            <!-- 業務内容 -->
-            <li class="nav-item">
-              <label for="job-function-select" class="form-label">業務内容</label>
-              <select class="form-select" aria-label="job-function-select" id="job-function-select" name="job_function">
-                <option selected>選択してください</option>
-                <% @options.each do |option| %>
-                  <option value="<%= option[1] %>" <%= 'selected' if params[:job_function] == option[1].to_s %>><%= option[0] %></option>
-                <% end %>
-              </select>
-            </li>
-
-            <!-- 雇用形態 -->
-            <li class="nav-item">
-              <label for="employment-type-select" class="form-label">雇用形態</label>
-              <select class="form-select" aria-label="employment-type-select" id="employment-type-select" name="employment_type">
-                <option selected>選択してください</option>
-                <% @options.each do |option| %>
-                  <option value="<%= option[1] %>" <%= 'selected' if params[:employment_type] == option[1].to_s %>><%= option[0] %></option>
-                <% end %>
-              </select>
-            </li>
-
-            <!-- 勤続年数 -->
-            <li class="nav-item">
-              <label for="service-year-select" class="form-label">勤続年数</label>
-              <select class="form-select" aria-label="service-year-select" id="service-year-select" name="service_year">
-                <option selected>選択してください</option>
-                <option value="1" <%= 'selected' if params[:service_year] == '1' %>>1年～3年</option>
+                <% @departments.each do |department| %>
+                  <option value="<%= department[1] %>" <%= 'selected' if params[:department] == department[1].to_s %>><%= department[0] %></option>
+                  <% end %>
+                </select>
+              </li>
+              <!-- 業務内容 -->
+              <li class="nav-item">
+                <label for="job-function-select" class="form-label">業務内容</label>
+                <select class="form-select" aria-label="job-function-select" id="job-function-select" name="job_function">
+                  <option selected>選択してください</option>
+                  <% @jobFunctions.each do |jobFunction| %>
+                    <option value="<%= jobFunction[1] %>" <%= 'selected' if params[:job_function] == jobFunction[1].to_s %>><%= jobFunction[0] %></option>
+                    <% end %>
+                  </select>
+                </li>
+                <!-- 雇用形態 -->
+                <li class="nav-item">
+                  <label for="employment-type-select" class="form-label">雇用形態</label>
+                  <select class="form-select" aria-label="employment-type-select" id="employment-type-select" name="employment_type">
+                    <option selected>選択してください</option>
+                    <% @employment_types.each do |employment_type| %>
+                      <option value="<%= employment_type[1] %>" <%= 'selected' if params[:employment_type] == employment_type[1].to_s %>><%= employment_type[0] %></option>
+                      <% end %>
+                    </select>
+                  </li>
+                  <!-- 勤続年数 -->
+                  <li class="nav-item">
+                    <label for="service-year-select" class="form-label">勤続年数</label>
+                    <select class="form-select" aria-label="service-year-select" id="service-year-select" name="service_year">
+                      <option selected>選択してください</option>
+                      <option value="1" <%= 'selected' if params[:service_year] == '1' %>>1年～3年</option>
                 <option value="2" <%= 'selected' if params[:service_year] == '2' %>>4年～10年</option>
                 <option value="3" <%= 'selected' if params[:service_year] == '3' %>>11年～20年</option>
                 <option value="4" <%= 'selected' if params[:service_year] == '4' %>>21年以上</option>
@@ -98,119 +95,112 @@
             </li>
           </ul>
         <!--<% end %>-->
-      </div>
-    </div>
-  </div>
-  </nav>
-<%# メイン画面%>
-  <main class="main-body">
-    <div class="container ">
-      <div class="row mt-5">
-        <div class="col-10">
-          <div class="card mb-2">
-            <div class="card-body">
-              <h4 class="card-title"><div class="badge text-bg-warning">年間</div>
-              労働生産損失額</h4>
-              <h4 class="card-text mx-5 mb-3"><%= number_to_currency(@data, unit: "¥", delimiter: ',', precision: 0) %></h4>
-              <span class="badge text-bg-primary mx-4 my-1">モデルケース</span>
-                <%= line_chart [['現在', @data], ['半年後', @six_months_later], ['1年後', @one_year_later]], 
-                width: "auto", 
-                height: "200px",
-                min: 0,
-                max: 3000000,
-                prefix: "￥",
-                thousands: ","
-                %>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="card mb-2" style="width: 10rem;">
-            <div class="card-header">
-              <span class="badge text-bg-secondary">モデル</span>
-              <h6>損失額推移</h6>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <h6>半年後</h6>
-                <p><%= number_to_currency(@six_months_later, unit: "¥", delimiter: ',', precision: 0) %></p>
-              </li>
-              <li class="list-group-item">
-                <h6>1年後</h6>
-                <p><%= number_to_currency(@one_year_later, unit: "¥", delimiter: ',', precision: 0) %></p>
-              </li>
-            </ul>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="card my-2">
-            <div class="card-body">
-              <h5>症状ランキング（１位～５位）</h5>
-              <%= bar_chart @symptoms,
-                min: 0,
-                max: 300,
-                suffix: "人",
-                thousands: ","
-              %>
-            </div>
-          </div>            
-        </div>
-        <div class="col">
-          <div class="card my-2">
-            <div class="card-body">
-              <h5>損失レベル</h5>
-              <div class="row">
-                <div class="col text-center">
-                  <span class="badge text-white" style="background-color: #dc143c;">アブセンティーズム総額</span>
-                  <h6><%= number_to_currency(@absent, unit: "¥", delimiter: ',', precision: 0) %></h6>
-                </div>
-                <div class="col text-center">
-                  <span class="badge text-white" style="background-color: #9932cc;">プレセンティーズム総額</span>
-                  <h6><%= number_to_currency(@data3, unit: "¥", delimiter: ',', precision: 0) %></h6>
-                </div>
-                <P class="mt-2">損失額</p>
-              </div>
-              <%= bar_chart [['1万円以上', @absent_p],['8000円以上', 20], ['5000円以上', 15], ['2000円以上', 10], ['1000円以上', 33]],
-                min: 0,
-                max: 100,
-                suffix: "人",
-                thousands: ",",
-                colors: ["#dc143c","#9932cc","#9932cc","#9932cc","#9932cc"]
-              %>
-            </div>            
-          </div>
-        </div>
-        <div class="col">
-          <div class="card my-2">
-            <div class="card-body">
-              <h5>企業診断</h5>
-              <h6>年間労働損失額&ensp;<%= number_to_currency(@data, unit: "¥", delimiter: ',', precision: 0) %></h6>
-
-                <% loss_value = @data %> <!-- データベースから損失額を取得 -->
-                <% gradient_color_class = '' %>
-
-                <% if loss_value <= 100000 %>
-                  <% gradient_color_class = 'bg-gradient-blue' %> <!-- 青から水色へのグラデーション -->
-                <% elsif loss_value <= 200000 %>
-                  <% gradient_color_class = 'bg-gradient-green' %> <!-- 青から緑へのグラデーション -->
-                <% elsif loss_value <= 400000 %>
-                  <% gradient_color_class = 'bg-gradient-yellow' %> <!-- 緑から黄色へのグラデーション -->
-                <% elsif loss_value <= 500000 %>
-                  <% gradient_color_class = 'bg-gradient-red' %> <!-- 黄色から赤へのグラデーション -->
-                <% else %>
-                  <% gradient_color_class = 'bg-gradient-purple' %> <!-- 赤から紫へのグラデーション -->
-                <% end %>
-
-                <div class="progress" style="height: 30px;">
-                  <div class="progress-bar <%= gradient_color_class %>" role="progressbar" style="width: <%= (loss_value.to_f / 500000) * 100 %>%; background: <%= gradient_color_class %>;" aria-valuenow="<%= (loss_value.to_f / 500000) * 100 %>" aria-valuemin="0" aria-valuemax="100">
+                      </div>
+                    </div>
                   </div>
-            </div>
-          </div>            
-        </div>
-      </div>
-    </div>
-  </main>
-
-</body>
-</html>
+                </nav>
+                <%# メイン画面%>
+                <main class="main-body">
+                  <div class="container ">
+                    <div class="row mt-5">
+                      <div class="row d-flex align-items-stretch">
+                        <div class="col-md-10">
+                          <div class="card mb-2">
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <div class="badge text-bg-warning">年間</div>
+                                労働生産損失額
+                              </h4>
+                              <h4 class="card-text mx-5 mb-3"><%= number_to_currency(@company.total_productivity_loss, unit: "¥", delimiter: ',', precision: 0) %></h4>
+                              <span class="badge text-bg-primary mx-4 my-1">モデルケース</span>
+                              <%= line_chart [['現在', @company.total_productivity_loss], ['半年後', @company.total_productivity_loss * 0.6], ['1年後', @company.total_productivity_loss * 0.4]], 
+                                width: "auto", 
+                                height: "200px",
+                                prefix: "￥",
+                                thousands: ","
+                              %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="card mb-2">
+                            <div class="card-header">
+                              <span class="badge text-bg-secondary">モデル</span> 損失額推移
+                            </div>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item">
+                                <h6>半年後</h6>
+                                <p><%= number_to_currency(@company.total_productivity_loss * 0.6, unit: "¥", delimiter: ',', precision: 0) %></p>
+                              </li>
+                              <li class="list-group-item">
+                                <h6>1年後</h6>
+                                <p><%= number_to_currency(@company.total_productivity_loss * 0.4, unit: "¥", delimiter: ',', precision: 0) %></p>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <div class="card my-2">
+                            <div class="card-body">
+                              <h5>症状ランキング（１位～５位）</h5>
+                              <%= bar_chart @symptoms,
+                                suffix: "人",
+                                thousands: ","
+                              %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card my-2">
+                            <div class="card-body">
+                              <h5>損失レベル</h5>
+                              <div class="row">
+                                <div class="col text-center">
+                                  <span class="badge text-white" style="background-color: #dc143c;">アブセンティーズム総額</span>
+                                  <h6><%= number_to_currency(@company.total_absenteeism, unit: "¥", delimiter: ',', precision: 0) %></h6>
+                                </div>
+                                <div class="col text-center">
+                                  <span class="badge text-white" style="background-color: #9932cc;">プレセンティーズム総額</span>
+                                  <h6><%= number_to_currency(@company.total_presenteeism, unit: "¥", delimiter: ',', precision: 0) %></h6>
+                                </div>
+                                <P class="mt-2">損失額</p>
+                              </div>
+                              <%= bar_chart [['1万円以上', 10],['8000円以上', 8], ['5000円以上', 10], ['2000円以上', 15], ['1000円以上', 33]],
+                                suffix: "人",
+                                thousands: ",",
+                                colors: ["#dc143c","#9932cc","#9932cc","#9932cc","#9932cc"]
+                              %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card my-2">
+                            <div class="card-body">
+                              <h5>企業診断</h5>
+                              <h6>年間労働損失額&ensp;<%= number_to_currency(@company.total_productivity_loss, unit: "¥", delimiter: ',', precision: 0) %></h6>
+                              <% loss_value = @company.total_productivity_loss %> <!-- データベースから損失額を取得 -->
+                              <% gradient_color_class = '' %>
+                              <% if loss_value <= 100000 %>
+                                <% gradient_color_class = 'bg-gradient-blue' %> <!-- 青から水色へのグラデーション -->
+                              <% elsif loss_value <= 200000 %>
+                                <% gradient_color_class = 'bg-gradient-green' %> <!-- 青から緑へのグラデーション -->
+                              <% elsif loss_value <= 400000 %>
+                                <% gradient_color_class = 'bg-gradient-yellow' %> <!-- 緑から黄色へのグラデーション -->
+                              <% elsif loss_value <= 500000 %>
+                                <% gradient_color_class = 'bg-gradient-red' %> <!-- 黄色から赤へのグラデーション -->
+                              <% else %>
+                                <% gradient_color_class = 'bg-gradient-purple' %> <!-- 赤から紫へのグラデーション -->
+                              <% end %>
+                              <div class="progress" style="height: 30px;">
+                                <div class="progress-bar <%= gradient_color_class %>" role="progressbar" style="width: <%= (loss_value.to_f / 500000) * 100 %>%; background: <%= gradient_color_class %>;" aria-valuenow="<%= (loss_value.to_f / 500000) * 100 %>" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </main>
+                  </body>
+                </html>
