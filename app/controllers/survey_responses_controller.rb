@@ -3,7 +3,11 @@
 class SurveyResponsesController < ApplicationController
   def new
     @survey_response = SurveyResponse.new
-    # 必要なビューロジックを追加する場合はここに追加
+    @company = Company.find(params[:company_id])
+    @departments = @company.departments.all
+    @jobFunctions = @company.job_functions.all
+    @employment_type = EmploymentType.all
+    @health_conditions = HealthCondition.all
   end
 
   def create
@@ -11,16 +15,29 @@ class SurveyResponsesController < ApplicationController
     if @survey_response.save
       flash[:success] = "アンケートが送信されました。"
       redirect_to root_path
-# 　　　アンケートご協力感謝画面に遷移するよう変更が必要
     else
       flash[:error] = "アンケートの送信中にエラーが発生しました。"
-      render :new
+      redirect_to new_company_survey_response_path(@company)
     end
   end
 
   private
 
   def survey_response_params
-    params.require(:survey_response).permit(:gender, :age_group, :years_of_service, :response_date, :days_with_symptoms, :task_volume_completion_level, :task_quality_level, :company_id, :department_id, :employment_type_id, :job_function_id)
+    params.require(:survey_response).permit(
+      :survey_number,
+      :gender,
+      :age_group,
+      :years_of_service,
+      :days_with_symptoms,
+      :task_volume_completion_level,
+      :task_quality_level,
+      :absent_days,
+      :company_id,
+      :department_id,
+      :employment_type_id,
+      :job_function_id,
+      health_condition_responses_attributes: [:id, :is_most_impactful, :health_condition_id]
+    )
   end
 end
